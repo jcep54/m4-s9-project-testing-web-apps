@@ -88,37 +88,60 @@ test('renders "lastName is a required field" if an last name is not entered and 
     expect(lNameError).toBeInTheDocument();
 });
 
-// test('renders all firstName, lastName and email text when submitted. Does NOT render message if message is not submitted.', async () => {
-//     //arrange
-//     render(<ContactForm/>);
-//     const fNameInput = screen.getByLabelText(/first name*/i);
-//     const lNameInput = screen.getByLabelText(/last name*/i);
-//     const emailInput = screen.getByLabelText(/email*/i);
+test('renders all firstName, lastName and email text when submitted. Does NOT render message if message is not submitted.', async () => {
+    //arrange
+    render(<ContactForm/>);
+    const fNameInput = screen.getByLabelText(/first name*/i);
+    const lNameInput = screen.getByLabelText(/last name*/i);
+    const emailInput = screen.getByLabelText(/email*/i);
 
-//     //ask
-//     userEvent.type(fNameInput,'Joseph');
-//     userEvent.type(lNameInput,'cep');
-//     userEvent.type(emailInput,'Joseph@test.com');
-//     userEvent.click(screen.getByRole('button'));
-
-//     const fNameRender = await screen.findByTestId('firstnameDisplay');
-//     const lNameRender = await screen.findByTestId('lastnameDisplay');
-//     const emailRender = await screen.findByTestId('emailDisplay');
-//     const messageRender = await screen.findByTestId('messageDisplay');
+    //ask
+    userEvent.type(fNameInput,'Joseph');
+    userEvent.type(lNameInput,'cep');
+    userEvent.type(emailInput,'Joseph@test.com');
+    userEvent.click(screen.getByRole('button'));
 
 
-//     //assert
-//     expect(fNameRender).toBeInTheDocument();
-//     expect(lNameRender).toBeInTheDocument();
-//     expect(emailRender).toBeInTheDocument();
-//     expect(messageRender).toBeFalsy();
-// });
+    await waitFor(() =>{
+        const fNameRender = screen.queryByTestId('firstnameDisplay');
+        const lNameRender = screen.queryByTestId('lastnameDisplay');
+        const emailRender = screen.queryByTestId('emailDisplay');
+        const messageRender = screen.queryByTestId('messageDisplay');
+ 
+        //assert
+        expect(fNameRender).toBeInTheDocument();
+        expect(lNameRender).toBeInTheDocument();
+        expect(emailRender).toBeInTheDocument();
+        expect(messageRender).not.toBeInTheDocument();
+    });
+});
 
-// test('renders all fields text when all fields are submitted.', async () => {
-//     //arrange
+test('renders all fields text when all fields are submitted.', async () => {
+    render(<ContactForm/>);
+    const fNameInput = screen.getByLabelText(/first name*/i);
+    const lNameInput = screen.getByLabelText(/last name*/i);
+    const emailInput = screen.getByLabelText(/email*/i);
+    const messageInput = screen.getByLabelText(/message/i);
 
-//     //ask
+    //ask
+    userEvent.type(fNameInput,'Joseph');
+    userEvent.type(lNameInput,'cep');
+    userEvent.type(emailInput,'Joseph@test.com');
+    userEvent.type(messageInput,'teehee');
+    userEvent.click(screen.getByRole('button'));
 
-//     //assert
 
-// });
+    await waitFor(() =>{
+        const fNameRender = screen.queryByTestId('firstnameDisplay');
+        const lNameRender = screen.queryByTestId('lastnameDisplay');
+        const emailRender = screen.queryByTestId('emailDisplay');
+        const messageRender = screen.queryByTestId('messageDisplay');
+
+        //assert
+        expect(fNameRender).toBeInTheDocument();
+        expect(lNameRender).toBeInTheDocument();
+        expect(emailRender).toBeInTheDocument();
+        expect(messageRender).toBeInTheDocument();
+    });
+
+});
